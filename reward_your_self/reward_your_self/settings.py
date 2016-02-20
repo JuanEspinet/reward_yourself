@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
-from secret import django_secret_key
+from secret import django_secret_key, db_dev_user_name, db_dev_login_pw
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -78,8 +78,12 @@ WSGI_APPLICATION = 'reward_your_self.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'reward_db',
+        'USER': db_dev_user_name,
+        'PASSWORD': db_dev_login_pw,
+        'HOST': '',
+        'IMPORT': '',
     }
 }
 
