@@ -36,7 +36,7 @@ class Reward_User(models.Model):
     # TODO add active_group foreign key to reward_group
 
     def __str__(self):
-        return self.username
+        return self.user.username
 
 class User_Group(models.Model):
     group_id = models.ForeignKey('Reward_Group', on_delete=models.CASCADE)
