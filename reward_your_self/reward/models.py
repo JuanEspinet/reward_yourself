@@ -15,7 +15,7 @@ class Reward(models.Model):
     description = models.CharField(max_length=500)
     point_cost = models.IntegerField(default=0)
     num_redeemed = models.IntegerField(default=0)
-    last_redeem_date = models.DateField(auto_now=False, auto_now_add=False)
+    last_redeem_date = models.DateField(auto_now=False, auto_now_add=False, null=True)
     group_id = models.ForeignKey('Reward_Group', on_delete=models.CASCADE)
 
     def __str__(self):
@@ -30,19 +30,6 @@ class Access_Level(models.Model):
 class Reward_User(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     date_of_birth = models.DateField(auto_now=False, auto_now_add=False)
-
-    def __init__(self):
-        default_group = Reward_Group.objects.create(group_name=self.user.username)
-        create_assoc = User_Group(
-            group_id=default_group,
-            user_id=self,
-            access_id=1,
-            invite_accepted=True
-        )
-        default_group.save()
-        create_assoc.save()
-
-
     groups = models.ManyToManyField(
         Reward_Group,
         through='User_Group',
@@ -51,7 +38,7 @@ class Reward_User(models.Model):
     def get_default_group(self):
         return self.groups[0]
 
-    active_group = models.ForeignKey('Reward_Group', related_name='active', on_delete=models.SET(get_default_group))
+    active_group = models.ForeignKey('Reward_Group', related_name='active', on_delete=models.SET(get_default_group), null=True)
 
     def __str__(self):
         return self.user.username
