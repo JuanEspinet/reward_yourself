@@ -1,9 +1,9 @@
 from django.db import models
-# from django.contrib.auth.models import User TODO: Change user table implementation to this later
+from django.contrib.auth.models import User
 
 # Create your models here.
 
-class Group(models.Model):
+class Reward_Group(models.Model):
     group_name = models.CharField(max_length=200)
     total_points = models.IntegerField(default=0)
 
@@ -15,7 +15,7 @@ class Reward(models.Model):
     description = models.CharField(max_length=500)
     point_cost = models.IntegerField(default=0)
     num_redeemed = models.IntegerField(default=0)
-    group_id = models.ForeignKey('Group', on_delete=models.CASCADE)
+    group_id = models.ForeignKey('Reward_Group', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.reward_name
@@ -26,19 +26,23 @@ class Access_Level(models.Model):
     def __str__(self):
         return self.access_level
 
-class User(models.Model):
-    username = models.CharField(max_length=200, primary_key=True)
-    password = models.CharField(max_length=200)
-    e_mail = models.EmailField(max_length=254)
+class Reward_User(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     date_of_birth = models.DateField(auto_now=False, auto_now_add=False)
+    groups = models.ManyToManyField(
+        Reward_Group,
+        through='User_Group',
+    )
+    # TODO add active_group foreign key to reward_group
 
     def __str__(self):
         return self.username
 
 class User_Group(models.Model):
-    group_id = models.ForeignKey('Group', on_delete=models.CASCADE)
-    access_id = models.ForeignKey('Access_Level', on_delete=models.CASCADE)
-    user_id = models.ForeignKey('User', on_delete=models.CASCADE)
+    group_id = models.ForeignKey('Reward_Group', on_delete=models.CASCADE)
+    user_id = models.ForeignKey('Reward_User', on_delete=models.CASCADE)
+    access_id = models.ManyToManyField(Access_Level)
+    invite_accepted = models.BooleanField(default=False)
 
     def __str__(self):
         return 'Group: {0} Access: {1} User: {2}'.format(self.group_id, \

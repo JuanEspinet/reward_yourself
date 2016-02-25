@@ -1,0 +1,123 @@
+[
+{
+  "model": "contenttypes.contenttype",
+  "pk": 1,
+  "fields": {
+    "app_label": "admin",
+    "model": "logentry"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 2,
+  "fields": {
+    "app_label": "auth",
+    "model": "permission"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 3,
+  "fields": {
+    "app_label": "auth",
+    "model": "group"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 4,
+  "fields": {
+    "app_label": "auth",
+    "model": "user"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 5,
+  "fields": {
+    "app_label": "contenttypes",
+    "model": "contenttype"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 6,
+  "fields": {
+    "app_label": "sessions",
+    "model": "session"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 7,
+  "fields": {
+    "app_label": "reward",
+    "model": "group"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 8,
+  "fields": {
+    "app_label": "reward",
+    "model": "reward"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 9,
+  "fields": {
+    "app_label": "reward",
+    "model": "access_level"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 10,
+  "fields": {
+    "app_label": "reward",
+    "model": "user"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 11,
+  "fields": {
+    "app_label": "reward",
+    "model": "user_group"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "rcxjzp4y7hakph28260huf7y79f5hw5m",
+  "fields": {
+    "session_data": "NTZlZDY3ZTk3N2I4NWRkYjBlOWM3YzZlOTViNGQzZGJiMDBlODE4Mjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIzYmQxMTc5MGVlNTVhYWZlZDgzYTZjOThlOTRmZGIxODkzNGVkOWYzIn0=",
+    "expire_date": "2016-03-05T04:45:40.210Z"
+  }
+},
+{
+  "model": "reward.group",
+  "pk": 1,
+  "fields": {
+    "group_name": "Batgroup",
+    "total_points": 0
+  }
+},
+{
+  "model": "reward.reward",
+  "pk": 1,
+  "fields": {
+    "reward_name": "Batarang",
+    "description": "A tool for gettin' badguys.",
+    "point_cost": 100,
+    "num_redeemed": 1000,
+    "group_id": 1
+  }
+},
+{
+  "model": "reward.access_level",
+  "pk": 1,
+  "fields": {
+    "access_level": "Batman"
+  }
+}

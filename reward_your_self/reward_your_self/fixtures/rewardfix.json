@@ -1,0 +1,27 @@
+[
+{
+  "model": "reward.group",
+  "pk": 1,
+  "fields": {
+    "group_name": "Batgroup",
+    "total_points": 0
+  }
+},
+{
+  "model": "reward.reward",
+  "pk": 1,
+  "fields": {
+    "reward_name": "Batarang",
+    "description": "A tool for gettin' badguys.",
+    "point_cost": 100,
+    "num_redeemed": 1000,
+    "group_id": 1
+  }
+},
+{
+  "model": "reward.access_level",
+  "pk": 1,
+  "fields": {
+    "access_level": "Batman"
+  }
+}
