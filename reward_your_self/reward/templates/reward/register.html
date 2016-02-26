@@ -1,0 +1,20 @@
+{% extends "reward/main_wrapper.html" %}
+{% load static %}
+{% block page_styles %}{% endblock %}
+{% block page_title %}Let's Register{% endblock %}
+{% block main %}
+  <form id="login" method="post" action="/login/">
+    {% csrf_token %}
+    <label for="username">Username*</label>
+    <input type="text" id="test" name="username" placeholder="Evan" required/>
+    <label for="password">Password*</label>
+    <input type="password" id="password1" name="password" placeholder="password" required/>
+    <label for="password">Confirm Password*</label>
+    <input type="password" id="password2" name="confirm password" placeholder="confirm password" required/>
+    <label for="email">Email</label>
+    <input type="email" name="email" placeholder="evan@RewardYourself.com">
+    <label for="birthdate">Date</label>
+    <input type="date" name="date" placeholder="01/01/1582">
+    <input type="submit" name="submit" id="submit" value="submit" />
+  </form>
+{% endblock %}

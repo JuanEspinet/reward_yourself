@@ -1,0 +1,17 @@
+{% extends "reward/main_wrapper.html" %}
+{% load static %}
+{% block page_styles %}{% endblock %}
+{% block page_title %}Log In Here{% endblock %}
+{% block main %}
+  {% if error_message %}
+    <p>{{ error_message }}</p>
+  {% endif %}
+  <form id="login" method="post" action="/login/">
+  {% csrf_token %}
+  <label for="username">username</label>
+    <input type="text" id="test" name="username" placeholder="username" required/>
+    <label for="password">password</label>
+    <input type="password" id="password1" name="password" placeholder="password" required/>
+    <input type="submit" name="submit" id="submit" value="submit" />
+  </form>
+{% endblock %}
