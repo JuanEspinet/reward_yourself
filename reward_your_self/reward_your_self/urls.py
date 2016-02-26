@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from reward import views as rwviews
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^login_page/$', rwviews.login_page),
+    url(r'^login/$', rwviews.login_attempt),
 ]
