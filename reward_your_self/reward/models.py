@@ -7,6 +7,10 @@ from django.db.models.signals import post_save
 class Reward_Group(models.Model):
     group_name = models.CharField(max_length=200)
     total_points = models.IntegerField(default=0)
+    users = models.ManyToManyField(
+        User,
+        through='User_Group',
+    )
 
     def __str__(self):
         return self.group_name
@@ -28,30 +32,22 @@ class Access_Level(models.Model):
     def __str__(self):
         return self.access_level
 
-class Reward_User(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+class Profile(models.Model):
+    user = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
     date_of_birth = models.DateField(auto_now=False, auto_now_add=False, null=True)
-    groups = models.ManyToManyField(
-        Reward_Group,
-        through='User_Group',
-    )
-
-    def get_default_group(self):
-        return self.groups[0]
-
-    active_group = models.ForeignKey('Reward_Group', related_name='active', on_delete=models.SET(get_default_group), null=True)
+    active_group = models.ForeignKey('Reward_Group', related_name='active', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.user.username
 
 class User_Group(models.Model):
-    group_assoc = models.ForeignKey('Reward_Group', on_delete=models.CASCADE)
-    user_assoc = models.ForeignKey('Reward_User', on_delete=models.CASCADE)
-    access_assoc = models.ManyToManyField(Access_Level)
+    group = models.ForeignKey(Reward_Group, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    access = models.ManyToManyField(Access_Level)
     invite_accepted = models.BooleanField(default=False)
 
     def __str__(self):
-        return 'Group: {0} User: {1}'.format(self.group_assoc, self.user_id)
+        return 'Group: {0} User: {1}'.format(self.group, self.user)
 
 # signal handlers for automatic setup
 
@@ -72,20 +68,20 @@ def create_profile(sender, instance, created, **kwargs):
     creates default profile association for a new user
     returns the newly created profile
     '''
-    new_profile = Reward_User(
+    new_profile = Profile(
         user = instance,
     )
     new_profile.save()
     return new_profile
 
-def create_assoc(user_id, group_id):
+def create_assoc(user, group):
     '''
-    adds membership and access association for a user with a group
+    adds membership association for a user with a group
     returns the newly created association
     '''
     new_assoc = User_Group(
-        group_assoc = group_id,
-        user_assoc = user_id,
+        group = group,
+        user = user,
         invite_accepted = True,
     )
     new_assoc.save()
@@ -97,6 +93,8 @@ def new_user_setup(sender, instance, created, **kwargs):
     '''
     new_group = create_default_group(sender, instance, created)
     new_profile = create_profile(sender, instance, created)
-    new_assoc = create_assoc(new_profile, new_group)
+    new_assoc = create_assoc(instance, new_group)
+
+# signal listeners
 
 post_save.connect(new_user_setup, sender=User)
