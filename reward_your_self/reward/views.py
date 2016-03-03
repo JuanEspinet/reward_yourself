@@ -53,7 +53,6 @@ def register_attempt(request):
         username = request.POST['username']
         password = request.POST['password']
         email = request.POST['email']
-        date_of_birth = request.POST['date_of_birth']
         if check_uname_exist(username):
             err = 'Sorry, that Username is not avaiable.'
             return render(request, 'reward/register.html', {'error': err})
