@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
+from .models import Reward_Group, Reward, Access_Level, Profile, User_Group
 
 # Create your views here:
 
@@ -22,8 +23,12 @@ def profile_page(request):
     '''
     profile page loader
     '''
-    pass
-    # TODO fill in return render when html page is avaiable
+    context = {
+        'user_dob' : request.user.profile.date_of_birth,
+        'user_act_group' : request.user.profile.active_group,
+        'groups' : Reward_Group.objects.filter(users__id = request.user.id),
+    }
+    return render(request, 'reward/profile.html', context)
 
 def login_page(request):
     '''
@@ -74,12 +79,13 @@ def register_attempt(request):
         email = request.POST['email']
         if check_uname_exist(username):
             err = 'Sorry, that Username is not avaiable.'
+            # error text will be renedered by django template
             return render(request, 'reward/register.html', {'error': err})
         new_user = User.objects.create_user(
             username = username,
             password = password,
             email = email
-        )
+        ) # NOTE: this create call will trigger new_user_setup from models
         return login_attempt(request)
 
 def check_uname_exist(username):
@@ -99,11 +105,13 @@ def update_email(user, email):
     returns boolean indicating valid e-mail
     '''
     try:
+        # only update if a valid email is passed
         validate_email(email)
         user.email = email
         user.save()
         return True
     except ValidationError:
+        # send back a boolean for use by the caller function
         return False
 
 def update_dob(user, dob):
@@ -119,6 +127,7 @@ def update_active_group(user, group):
     updates user current active group, takes a user object and group object
     returns boolean indicating success or failure
     '''
+    # check to make sure user is allowed to be in this group
     if group in user.reward_group:
         user.profile.active_group = group
         user.profile.save()

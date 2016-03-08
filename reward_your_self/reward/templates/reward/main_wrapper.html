@@ -20,6 +20,7 @@
       <p>&copy 2016 Juan Espinet</p>
     </footer>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-    <script type="text/javascript" src='{% static "reward/js/main.js" %}'></script>
+    <script type="text/javascript" src='{% static "reward/js/main_wrapper.js" %}'></script>
+    {% block page_javascript %}{% endblock %}
   </body>
 </html>
