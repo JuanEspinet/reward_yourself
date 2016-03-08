@@ -101,4 +101,4 @@ def new_user_setup(sender, instance, created, **kwargs):
 
 # signal listeners
 
-post_save.connect(new_user_setup, sender=User, dispatch_UID='banana')
+post_save.connect(new_user_setup, sender=User, dispatch_uid='banana')
