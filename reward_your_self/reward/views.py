@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from .models import Reward_Group, Reward, Access_Level, Profile, User_Group
+from time import strftime
 
 # Create your views here:
 
@@ -24,7 +25,7 @@ def profile_page(request):
     profile page loader
     '''
     context = {
-        'user_dob' : request.user.profile.date_of_birth,
+        'user_dob' : request.user.profile.date_of_birth.strftime('%Y-%m-%d'),
         'user_act_group' : request.user.profile.active_group,
         'groups' : Reward_Group.objects.filter(users__id = request.user.id),
     }
@@ -128,7 +129,8 @@ def update_active_group(user, group):
     returns boolean indicating success or failure
     '''
     # check to make sure user is allowed to be in this group
-    if group in user.reward_group:
+    group = Reward_Group.objects.get(pk=group)
+    if group in Reward_Group.objects.filter(users__id = user.id):
         user.profile.active_group = group
         user.profile.save()
         return True
@@ -167,6 +169,7 @@ def profile_update(request):
             'first_name' : update_first_name,
             'last_name' : update_last_name,
         }
+        update_results = {}
         # check over this list to see if the request contains data to update
         for field in function_dict:
             field_value = data[field]
@@ -174,8 +177,6 @@ def profile_update(request):
             if field_value:
                 # call appropriate update function on the data
                 success = function_dict[field](user, field_value)
-                # check for update errors
-                if not success:
-                    # TODO fill in error checking
-                    continue
-        return render(request)
+                # populate response with update results
+                update_results[field] = success
+    return JsonResponse(update_results)

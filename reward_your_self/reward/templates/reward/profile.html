@@ -1,4 +1,5 @@
 {% extends "reward/main_wrapper.html" %}
+{% load static %}
 {% block page_styles %}{% endblock %}
 {% block page_title %}Profile{% endblock %}
 {% block main %}
@@ -6,25 +7,33 @@
     Welcome to your profile, {{ request.user.username }}.
   </p>
   <form class="profile" action="">
+    {% csrf_token %}
     <fieldset class="namefields">
       <legend>Name:</legend>
       <label for="first_name">First:</label>
-      <input type="text" name="first_name" value="{{ request.user.first_name }}">
+      <input type="text" name="first_name" value="{{ request.user.first_name }}"
+      id="first_name">
       <label for="last_name">Last:</label>
-      <input type="text" name="last_name" value="{{ request.user.last_name }}">
+      <input type="text" name="last_name" value="{{ request.user.last_name }}"
+      id="last_name">
     </fieldset>
     <label for="active_group">Active Group:</label>
-    <select class="active_group" name="active_group">
+    <select class="active_group" name="active_group" id="active_group">
       {% for group in groups %}
-        <option {% if user_act_group.id == group.id %}selected{% endif %}>
+        <option {% if user_act_group.id == group.id %}selected{% endif %}
+        value='{{ group.id }}'>
           {{ group.group_name }}
         </option>
       {% endfor %}
     </select>
     <label for="email">E-mail:</label>
-    <input type="email" name="email" value="{{ request.user.email }}">
+    <input type="email" name="email" value="{{ request.user.email }}" id="email">
     <label for="date_of_birth">Date of Birth:</label>
-    <input type="date" name="date_of_birth" value="{{ user_dob }}">
+    <input type="date" name="date_of_birth" value="{{ user_dob }}" id="dob">
+    <input type="button" name="update" value="Update Profile" id="update">
   </form>
 {% endblock %}
-{% block page_javascript %}{% endblock %}
+{% block page_javascript %}
+  <script type="text/javascript" src='{% static "reward/js/profile.js" %}'>
+  </script>
+{% endblock %}
