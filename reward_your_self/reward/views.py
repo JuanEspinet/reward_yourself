@@ -16,8 +16,7 @@ def main_page(request):
     '''
     loads the main page, only if logged in
     '''
-    username = request.user.username
-    return render(request, 'reward/main.html', {'username': username})
+    return render(request, 'reward/main.html', {})
 
 @login_required
 def profile_page(request):
@@ -25,7 +24,7 @@ def profile_page(request):
     profile page loader
     '''
     context = {
-        'user_dob' : request.user.profile.date_of_birth.strftime('%Y-%m-%d'),
+        'user_dob' : request.user.profile.date_of_birth.strftime('%Y-%d'),
         'user_act_group' : request.user.profile.active_group,
         'groups' : Reward_Group.objects.filter(users__id = request.user.id),
     }

@@ -1,9 +1,18 @@
 {% extends "reward/main_wrapper.html" %}
+{% load static %}
 {% block page_styles %}{% endblock %}
 {% block page_title %}Main{% endblock %}
 {% block main %}
-  <p>
-    You are on the main page, {{ username }}.
-  </p>
+  <div class="next_reward">
+    <p>
+      You are this close to your next reward:
+    </p>
+    <div class="progress_bar">
+      &nbsp
+    </div>
+  </div>
+  <button type="button" name="reward_yourself">
+    Good Job!
+  </button>
 {% endblock %}
 {% block page_javascript %}{% endblock %}

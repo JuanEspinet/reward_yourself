@@ -20,6 +20,7 @@ from reward import views as rwviews
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^main/$', rwviews.main_page, name = 'main_page'),
+    url(r'^$', rwviews.main_page, name = 'main_page'),
     url(r'^login_page/$', rwviews.login_page, name='login_page'),
     url(r'^login/$', rwviews.login_attempt, name='login_attempt'),
     url(r'^register/$', rwviews.register_attempt, name='reg_attempt'),
