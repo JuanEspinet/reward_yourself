@@ -1,6 +1,22 @@
 {% extends "reward/main_wrapper.html" %}
 {% load static %}
 {% block page_styles %}{% endblock %}
+{% block page_title %}Rewards{% endblock %}
 {% block main %}
-
+  <p>
+    Available rewards for {{ request.user.profile.active_group.group_name }}:
+  </p>
+  {% for reward in rewards %}
+    <button type="button" name="{{ reward.reward_name }}"
+      {% if request.user.profile.active_group.total_points < reward.point_cost %}
+        disabled
+      {% endif %}>
+      {{ reward.reward_name }}
+      <br>
+      {{ reward.point_cost }}
+    </button>
+    <p>
+      {{ reward.description }}
+    </p>
+  {% endfor %}
 {% endblock %}

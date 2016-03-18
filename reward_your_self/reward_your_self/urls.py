@@ -27,4 +27,5 @@ urlpatterns = [
     url(r'^logout_request/$', rwviews.logout_request, name='logout_req'),
     url(r'^profile/$', rwviews.profile_page, name='profile_page'),
     url(r'^profile_update/$', rwviews.profile_update, name='profile_update'),
+    url(r'^rewards/$', rwviews.reward_page, name='rewards'),
 ]

@@ -16,7 +16,10 @@ def main_page(request):
     '''
     loads the main page, only if logged in
     '''
-    return render(request, 'reward/main.html', {})
+    context = {
+        'user_groups' : User_Group.objects.filter(user=request.user.id),
+    }
+    return render(request, 'reward/main.html', context)
 
 @login_required
 def profile_page(request):
@@ -29,6 +32,16 @@ def profile_page(request):
         'groups' : Reward_Group.objects.filter(users__id = request.user.id),
     }
     return render(request, 'reward/profile.html', context)
+
+@login_required
+def reward_page(request):
+    '''
+    reward page loader
+    '''
+    context = {
+        'rewards' : Reward.objects.filter(group_id=request.user.profile.active_group.id),
+    }
+    return render(request, 'reward/rewards.html', context)
 
 def login_page(request):
     '''
