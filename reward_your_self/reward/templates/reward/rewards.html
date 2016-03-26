@@ -6,8 +6,12 @@
   <p>
     Available rewards for {{ request.user.profile.active_group.group_name }}:
   </p>
+  <div class="buttonBlock" id="rewardBlock">
   {% for reward in rewards %}
-    <button type="button" name="{{ reward.reward_name }}"
+    <button
+      type="button"
+      name="{{ reward.reward_name }}"
+      id="{{ reward.id }}"
       {% if request.user.profile.active_group.total_points < reward.point_cost %}
         disabled
       {% endif %}>
@@ -19,4 +23,9 @@
       {{ reward.description }}
     </p>
   {% endfor %}
+  </div>
+  <div class="hiddenForm" id="addReward">
+    <form class="" action="" method="post">
+    </form>
+  </div>
 {% endblock %}

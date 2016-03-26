@@ -192,3 +192,5 @@ def profile_update(request):
                 # populate response with update results
                 update_results[field] = success
     return JsonResponse(update_results)
+
+# reward page views
