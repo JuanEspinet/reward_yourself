@@ -16,7 +16,7 @@ class Reward_Form(forms.ModelForm):
         new_reward = super(Reward_Form, self).save(commit=False)
         new_reward.num_redeemed = 0
         # retrieve the current user's group from the request
-        group = request.user.profile.active_group
+        group = self.request.user.profile.active_group
         new_reward.group_id = group
         if commit:
             new_reward.save()

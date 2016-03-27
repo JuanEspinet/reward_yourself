@@ -35,7 +35,3 @@ function updateProfile(event){
     console.log(data);
   });
 }
-
-function validateEmail(event){
-  // calls a django email validation view
-}

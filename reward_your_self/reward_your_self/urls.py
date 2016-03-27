@@ -28,4 +28,5 @@ urlpatterns = [
     url(r'^profile/$', rwviews.profile_page, name='profile_page'),
     url(r'^profile_update/$', rwviews.profile_update, name='profile_update'),
     url(r'^rewards/$', rwviews.reward_page, name='rewards'),
+    url(r'^new_reward/$', rwviews.new_reward, name='new_reward'),
 ]

@@ -9,6 +9,7 @@
   <div class="buttonBlock" id="rewardBlock">
   {% for reward in rewards %}
     <button
+      class="rewardButton"
       type="button"
       name="{{ reward.reward_name }}"
       id="{{ reward.id }}"
@@ -19,13 +20,20 @@
       <br>
       {{ reward.point_cost }}
     </button>
-    <p>
+    <label for="{{ reward.reward_name }}">
       {{ reward.description }}
-    </p>
+    </label>
   {% endfor %}
   </div>
   <div class="hiddenForm" id="addReward">
-    <form class="" action="" method="post">
+    <form class="" action="/new_reward/" method="post" id="newRewardForm">
+      {% csrf_token %}
+      {{ rew_form }}
+      <input type="submit" name="newReward" value="Create New" id="submitNew">
     </form>
   </div>
+{% endblock %}
+{% block page_javascript %}
+  <script type="text/javascript" src='{% static "reward/js/rewards.js" %}'>
+  </script>
 {% endblock %}

@@ -7,6 +7,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from .models import Reward_Group, Reward, Access_Level, Profile, User_Group
 from time import strftime
+from .forms import Reward_Form
 
 # Create your views here:
 
@@ -38,8 +39,10 @@ def reward_page(request):
     '''
     reward page loader
     '''
+    new_reward = Reward_Form(request=request)
     context = {
         'rewards' : Reward.objects.filter(group_id=request.user.profile.active_group.id),
+        'rew_form' : new_reward
     }
     return render(request, 'reward/rewards.html', context)
 
@@ -194,3 +197,48 @@ def profile_update(request):
     return JsonResponse(update_results)
 
 # reward page views
+def deduct_points(group, points):
+    '''
+    deducts points from a group
+    usually for redeeming a reward
+    '''
+    if group.total_points < points:
+        return 'Not enough points.'
+    group.total_points -= points
+    group.save()
+    return group.total_points
+
+def update_redeemed(reward):
+    '''
+    increments the number of times a reward has been redeemed
+    returns the reward object
+    '''
+    reward.num_redeemed += 1
+    reward.save()
+    return reward
+
+def new_reward(request):
+    '''
+    processes form submittal for adding a new reward to a group
+    '''
+    if request.method == 'POST':
+        form = Reward_Form(request.POST, request=request)
+        if form.is_valid():
+            form.save()
+    return reward_page(request)
+
+def redeem_reward(request):
+    '''
+    processes a user redeeming a reward for a group
+    '''
+    if request.method == 'POST':
+        # find the right group to take the points from
+        group = request.user.profile.active_group
+        # find the right reward to mark as redeemed
+        reward = Reward.objects.get(id=request.reward_id)
+        # change group's point total
+        new_total = deduct_points(group, reward.point_cost)
+        # update number of times this reward redeemed
+        reward = update_redeemed(reward)
+        return JsonResponse({'new_total' : new_total})
+    return JsonResponse({'new_total': False})
