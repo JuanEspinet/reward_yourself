@@ -6,11 +6,11 @@
   <p>
     Available rewards for {{ request.user.profile.active_group.group_name }}:
   </p>
-  <div class="buttonBlock" id="rewardBlock">
+  <div class="button_block" id="reward_block">
   {% for reward in rewards %}
-    <div class="buttonHolder" id="holder{{ reward.id }}">
+    <div class="button_holder" id="holder{{ reward.id }}">
       <button
-        class="rewardButton"
+        class="reward_button"
         type="button"
         name="{{ reward.reward_name }}"
         id="{{ reward.id }}"
@@ -28,11 +28,11 @@
     </div>
   {% endfor %}
   </div>
-  <div class="hiddenForm" id="addReward">
-    <form class="" action="/new_reward/" method="post" id="newRewardForm">
+  <div class="hidden_form" id="add_reward">
+    <form class="" action="/new_reward/" method="post" id="new_reward_form">
       {% csrf_token %}
       {{ rew_form }}
-      <input type="submit" name="newReward" value="Create New" id="submitNew">
+      <input type="submit" name="new_reward" value="Create New" id="submit_new">
     </form>
   </div>
 {% endblock %}

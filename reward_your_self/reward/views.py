@@ -17,8 +17,16 @@ def main_page(request):
     '''
     loads the main page, only if logged in
     '''
+    user_groups = User_Group.objects.filter(user=request.user.id)
+    active_group = request.user.profile.active_group
+    group_rewards = Reward.objects.filter(group_id=active_group)
+    highest_avail = get_high_avail(group_rewards, active_group.total_points)
+    next_avail = get_next_highest(group_rewards, highest_avail.point_cost)
     context = {
-        'user_groups' : User_Group.objects.filter(user=request.user.id),
+        'user_groups' : user_groups,
+        'highest_avail' : highest_avail,
+        'next_avail' : next_avail,
+        'active_group' : active_group,
     }
     return render(request, 'reward/main.html', context)
 
@@ -113,6 +121,69 @@ def check_uname_exist(username):
     except User.DoesNotExist:
         return False
     return True
+
+# main page views
+def reward_available(reward, total):
+    '''
+    compares a reward's point value to the total
+    and determines if the user can afford that reward
+    '''
+    if reward.point_cost <= total:
+        return reward
+    return False
+
+def check_highest(highest, current):
+    '''
+    checks two reward point costs and returns whichever is the highest
+    current can be a reward object or boolean
+    highest must be a reward object
+    returns existing highest if the two values are equal
+    '''
+    if current and highest.point_cost < current.point_cost:
+        return current
+    return highest
+
+def check_lowest(lowest, current):
+    '''
+    checks two reward point costs and determines which is lowest
+    current can be a reward object or boolean
+    lowest must be a reward object
+    returns existing lowest if the two values are equal
+    '''
+    if current and lowest.point_cost > current.point_cost:
+        return current
+    return lowest
+
+def get_high_avail(rewards, total_points):
+    '''
+    compares a list of rewards to total points and returns
+    the highest cost reward the user can afford
+    '''
+    highest = rewards[0]
+    for reward in rewards:
+        highest = check_highest(highest, reward_available(reward, total_points))
+    return highest
+
+def get_next_highest(rewards, total_points):
+    '''
+    compares a list of rewards and finds the next reward
+    costing higher than the current point total
+    '''
+    lowest = False
+    for reward in rewards:
+        if not reward_available(reward, total_points):
+            if not lowest:
+                lowest = reward
+            lowest = check_lowest(lowest, reward)
+    return lowest
+
+def add_point(request):
+    '''
+    processes an add point click from a user
+    '''
+    if request.method == 'GET':
+        request.user.profile.active_group.point_total += 1
+    return HttpResponseRedirect('/main/')
 
 # user profile page views
 def update_email(user, email):

@@ -30,4 +30,5 @@ urlpatterns = [
     url(r'^rewards/$', rwviews.reward_page, name='rewards'),
     url(r'^new_reward/$', rwviews.new_reward, name='new_reward'),
     url(r'^redeem_reward/$', rwviews.redeem_reward, name='redeem_reward'),
+    url(r'^add_point/$', rwviews.add_point, name='add_point'),
 ]

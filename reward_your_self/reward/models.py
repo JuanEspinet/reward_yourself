@@ -27,7 +27,7 @@ class Reward(models.Model):
     group_id = models.ForeignKey('Reward_Group', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.reward_name
+        return 'Group: {0}, Reward: {1}, Cost: {2}'.format(self.group_id.group_name, self.reward_name, self.point_cost)
 
 class Access_Level(models.Model):
     access_level = models.CharField(max_length=200)

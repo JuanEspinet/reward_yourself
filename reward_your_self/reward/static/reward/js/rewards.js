@@ -1,5 +1,5 @@
 $(document).ready(function(){
-  $('.rewardButton').click(redeemReward);
+  $('.reward_button').click(redeemReward);
 });
 
 function redeemReward(event){

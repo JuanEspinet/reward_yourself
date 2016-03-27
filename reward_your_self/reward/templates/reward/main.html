@@ -3,16 +3,37 @@
 {% block page_styles %}{% endblock %}
 {% block page_title %}Main{% endblock %}
 {% block main %}
-  <div class="next_reward">
-    <p>
-      You are this close to your next reward:
-    </p>
-    <div class="progress_bar">
-      &nbsp
+
+  {% if next_avail %}
+    <div class="next_reward">
+      <p>
+        You are this close to your next reward:
+      </p>
+      <div class="progress_bar" id="next_reward_bar">
+        <span class="floating_text">
+          {{ next_avail.reward_name }}
+        </span>
+        <br>
+        <span class="point_display">
+          {{ active_group.total_points }} / {{ next_avail.point_cost }}
+        </span>
+        <div class="inner_bar">
+        </div>
+      </div>
     </div>
+  {% endif %}
+
+  <div class="current_reward">
+    <button type="button" name="get_reward">
+      You can already get: {{ highest_avail.reward_name }}
+      <br>
+      For {{ highest_avail.point_cost }} points!
+    </button>
   </div>
+
   <button type="button" name="reward_yourself">
-    Good Job!
+    Good Job! Give yourself a point!
   </button>
+
 {% endblock %}
 {% block page_javascript %}{% endblock %}

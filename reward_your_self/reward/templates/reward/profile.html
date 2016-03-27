@@ -8,7 +8,7 @@
   </p>
   <form class="profile" action="">
     {% csrf_token %}
-    <fieldset class="namefields">
+    <fieldset class="name_fields">
       <legend>Name:</legend>
       <label for="first_name">First:</label>
       <input type="text" name="first_name" value="{{ request.user.first_name }}"
