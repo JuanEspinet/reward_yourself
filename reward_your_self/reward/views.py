@@ -182,7 +182,9 @@ def add_point(request):
     processes an add point click from a user
     '''
     if request.method == 'GET':
-        request.user.profile.active_group.point_total += 1
+        active_group = request.user.profile.active_group
+        active_group.total_points += 1
+        active_group.save()
     return HttpResponseRedirect('/main/')
 
 # user profile page views
