@@ -225,7 +225,8 @@ def new_reward(request):
         form = Reward_Form(request.POST, request=request)
         if form.is_valid():
             form.save()
-    return reward_page(request)
+            request.POST = {}
+    return HttpResponseRedirect('/rewards/')
 
 def redeem_reward(request):
     '''
