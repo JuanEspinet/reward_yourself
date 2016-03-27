@@ -24,16 +24,19 @@
   {% endif %}
 
   <div class="current_reward">
-    <button type="button" name="get_reward">
+    <button type="button" name="get_reward" id="get_reward">
       You can already get: {{ highest_avail.reward_name }}
       <br>
       For {{ highest_avail.point_cost }} points!
     </button>
   </div>
 
-  <button type="button" name="reward_yourself">
+  <button type="button" name="add_point" id="add_point">
     Good Job! Give yourself a point!
   </button>
 
 {% endblock %}
-{% block page_javascript %}{% endblock %}
+{% block page_javascript %}
+  <script type="text/javascript" src='{% static "reward/js/main.js" %}'>
+  </script>
+{% endblock %}
