@@ -8,21 +8,24 @@
   </p>
   <div class="buttonBlock" id="rewardBlock">
   {% for reward in rewards %}
-    <button
-      class="rewardButton"
-      type="button"
-      name="{{ reward.reward_name }}"
-      id="{{ reward.id }}"
-      {% if request.user.profile.active_group.total_points < reward.point_cost %}
-        disabled
-      {% endif %}>
-      {{ reward.reward_name }}
+    <div class="buttonHolder" id="holder{{ reward.id }}">
+      <button
+        class="rewardButton"
+        type="button"
+        name="{{ reward.reward_name }}"
+        id="{{ reward.id }}"
+        {% if request.user.profile.active_group.total_points < reward.point_cost %}
+          disabled
+        {% endif %}>
+        {{ reward.reward_name }}
       <br>
-      {{ reward.point_cost }}
-    </button>
-    <label for="{{ reward.reward_name }}">
-      {{ reward.description }}
-    </label>
+        {{ reward.point_cost }}
+      </button>
+      <br>
+      <label for="{{ reward.reward_name }}">
+        {{ reward.description }}
+      </label>
+    </div>
   {% endfor %}
   </div>
   <div class="hiddenForm" id="addReward">

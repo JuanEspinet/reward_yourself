@@ -11,9 +11,12 @@
     <header>
       <h1>Reward Yourself, {{ request.user.username }}</h1>
       <h2>{% block page_title %}{% endblock %}</h2>
-      <p id="point_total">
+      <p>
         {{ request.user.profile.active_group.group_name }} has
-        {{ request.user.profile.active_group.total_points }} total points.
+        <span id="point_total">
+          {{ request.user.profile.active_group.total_points }}
+        </span> 
+        total points.
       </p>
     </header>
     {% block main %}

@@ -235,7 +235,7 @@ def redeem_reward(request):
         # find the right group to take the points from
         group = request.user.profile.active_group
         # find the right reward to mark as redeemed
-        reward = Reward.objects.get(id=request.reward_id)
+        reward = Reward.objects.get(id=request.POST['reward_id'])
         # change group's point total
         new_total = deduct_points(group, reward.point_cost)
         # update number of times this reward redeemed

@@ -6,11 +6,9 @@ $(document).ready(function(){
 function getFieldData(){
   // parses form data and returns as an object
   var $formFields = $('.profile input'), // cache all form fields
-      csrf = $('[name="csrfmiddlewaretoken"]').val(),
-      formData = {
-        csrfmiddlewaretoken: csrf,
+      formData = addCSRF({
         active_group: $('#active_group').val()
-      };
+      });
   for (var i = 0; i < $formFields.length; i++){
     var current = $formFields[i];
     console.log(current);
