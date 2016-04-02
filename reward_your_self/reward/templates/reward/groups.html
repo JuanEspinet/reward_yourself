@@ -1,6 +1,21 @@
 {% extends "reward/main_wrapper.html" %}
 {% load static %}
-{% block page_styles %}{% endblock %}
-{% block main %}
 
+{% block page_styles %}{% endblock %}
+
+{% block page_title %}
+  Groups
+{% endblock %}
+
+{% block main %}
+  <div class="invite_list" id="invite_list">
+
+  </div>
+  <div id="new_group_form" class="hidden_form">
+    <form class="new_group" action="/new_group/" method="post">
+      {% csrf_token %}
+      {{ group_form }}
+      <input type="submit" name="new_group" value="Create New Group" id="new_group">
+    </form>
+  </div>
 {% endblock %}

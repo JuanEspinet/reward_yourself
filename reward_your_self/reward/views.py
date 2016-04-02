@@ -7,7 +7,24 @@ from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from .models import Reward_Group, Reward, Access_Level, Profile, User_Group
 from time import strftime
-from .forms import Reward_Form
+from .forms import Reward_Form, Group_Form
+
+# extra context processor
+def main_wrapper_extra_vars(request):
+    main_page = {'url' : '/main/', 'name' : 'Main'}
+    return {
+        'nav_url_list' : {
+            'main_page' : main_page,
+            'reward_page' : {
+                'url' : '/rewards/',
+                'name' : 'Rewards',
+            },
+            'profile_page' : {
+                'url' : '/profile/',
+                'name' : 'Profile',
+            },
+        },
+    }
 
 # Create your views here:
 
@@ -20,8 +37,16 @@ def main_page(request):
     user_groups = User_Group.objects.filter(user=request.user.id)
     active_group = request.user.profile.active_group
     group_rewards = Reward.objects.filter(group_id=active_group)
+    # get the highest reward that the user can afford
     highest_avail = get_high_avail(group_rewards, active_group.total_points)
-    next_avail = get_next_highest(group_rewards, highest_avail.point_cost)
+    # set a value for calculation purposes if the user cant afford any
+    if not highest_avail:
+        highest_points = 0
+    else:
+        highest_points = highest_avail.point_cost
+    # get the next reward the user will be able to afford
+    # will be False if the user has more points than their highest cost reward
+    next_avail = get_next_highest(group_rewards, highest_points)
     context = {
         'user_groups' : user_groups,
         'highest_avail' : highest_avail,
@@ -36,7 +61,7 @@ def profile_page(request):
     profile page loader
     '''
     context = {
-        'user_dob' : request.user.profile.date_of_birth.strftime('%Y-%d'),
+        'user_dob' : request.user.profile.date_of_birth.strftime('%Y-%m-%d'),
         'user_act_group' : request.user.profile.active_group,
         'groups' : Reward_Group.objects.filter(users__id = request.user.id),
     }
@@ -54,6 +79,18 @@ def reward_page(request):
     }
     return render(request, 'reward/rewards.html', context)
 
+@login_required
+def group_page(request):
+    '''
+    group page loader
+    '''
+    new_group = Group_Form(request=request)
+    context = {
+        'group_form' : new_group,
+        'groups' : Reward_Group.objects.filter(users__id = request.user.id),
+    }
+    return render(request, 'reward/groups.html', context)
+
 def login_page(request):
     '''
     login page loader
@@ -69,7 +106,7 @@ def logout_request(request):
     sends a logout signal and redirects to login page
     '''
     logout(request);
-    return redirect('login_page')
+    return HttpResponseRedirect('login_page')
 
 def login_attempt(request):
     '''
@@ -158,11 +195,12 @@ def get_high_avail(rewards, total_points):
     '''
     compares a list of rewards to total points and returns
     the highest cost reward the user can afford
+    or False if the user cannot afford any rewards
     '''
     highest = rewards[0]
     for reward in rewards:
         highest = check_highest(highest, reward_available(reward, total_points))
-    return highest
+    return reward_available(highest, total_points)
 
 def get_next_highest(rewards, total_points):
     '''
@@ -298,7 +336,6 @@ def new_reward(request):
         form = Reward_Form(request.POST, request=request)
         if form.is_valid():
             form.save()
-            request.POST = {}
     return HttpResponseRedirect('/rewards/')
 
 def redeem_reward(request):
@@ -316,3 +353,15 @@ def redeem_reward(request):
         reward = update_redeemed(reward)
         return JsonResponse({'new_total' : new_total})
     return JsonResponse({'new_total': False})
+
+# group page views
+
+def create_new_group(request):
+    '''
+    processes form submittal for adding a new group
+    '''
+    if request.method == 'POST':
+        form = Group_Form(request.POST, request=request)
+        if form.is_valid():
+            form.save()
+    return HttpResponseRedirect('/groups/')

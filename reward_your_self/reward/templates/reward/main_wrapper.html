@@ -15,9 +15,19 @@
         {{ request.user.profile.active_group.group_name }} has
         <span id="point_total">
           {{ request.user.profile.active_group.total_points }}
-        </span> 
+        </span>
         total points.
       </p>
+      <nav class="header_nav">
+        <ul>
+          <li><a href="/main/" id="main_page_link">Main</a></li>
+          <li><a href="/rewards/" id="reward_page_link">Rewards</a></li>
+          <li><a href="/profile/" id="profile_page_link">Profile</a></li>
+          <!--{% for nav in nav_url_list %}
+            <li><a href="{{ nav.url }}" id="{{ nav }}_link">{{ nav.name }}</a></li>
+          {% endfor %}-->
+        </ul>
+      </nav>
     </header>
     {% block main %}
 

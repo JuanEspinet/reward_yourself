@@ -23,13 +23,15 @@
     </div>
   {% endif %}
 
-  <div class="current_reward">
-    <button type="button" name="get_reward" id="get_reward">
-      You can already get: {{ highest_avail.reward_name }}
-      <br>
-      For {{ highest_avail.point_cost }} points!
-    </button>
-  </div>
+  {% if highest_avail %}
+    <div class="current_reward">
+      <button type="button" name="get_reward" id="get_reward">
+        You can already get: {{ highest_avail.reward_name }}
+        <br>
+        For {{ highest_avail.point_cost }} points!
+      </button>
+    </div>
+  {% endif %}
 
   <button type="button" name="add_point" id="add_point">
     Good Job! Give yourself a point!

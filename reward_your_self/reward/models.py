@@ -5,9 +5,6 @@ from django.db.models.signals import post_save
 # Create your models here.
 
 class Reward_Group(models.Model):
-    '''
-    table for storing group information, groups consist of one or more users
-    '''
     group_name = models.CharField(max_length=200)
     total_points = models.IntegerField(default=0)
     users = models.ManyToManyField(
