@@ -365,3 +365,37 @@ def create_new_group(request):
         if form.is_valid():
             form.save()
     return HttpResponseRedirect('/groups/')
+
+def get_user_invites(user):
+    '''
+    gets list of pending invites for a user
+    '''
+    # query for groups containing passed user
+    # for which invite has not been accepted
+    # return group list
+    pass
+
+def remove_group(user, group):
+    '''
+    removes a user from a group
+    '''
+    # identify associative table entry for user to group
+    # delete that entry
+    # verify deletion
+    # return updated user group list
+    pass
+
+def find_default_group(user):
+    '''
+    finds and returns the default (original) group for a user
+    '''
+    # find list of groups for which access level is "default"
+    # return that group
+    pass
+
+def get_group_list(user):
+    '''
+    gets the list of groups for the current user
+    '''
+    #
+    pass

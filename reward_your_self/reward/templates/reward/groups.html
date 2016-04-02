@@ -11,6 +11,11 @@
   <div class="invite_list" id="invite_list">
 
   </div>
+
+  <div class="control_panel" id="current_dashboard">
+
+  </div>
+
   <div id="new_group_form" class="hidden_form">
     <form class="new_group" action="/new_group/" method="post">
       {% csrf_token %}
@@ -18,4 +23,5 @@
       <input type="submit" name="new_group" value="Create New Group" id="new_group">
     </form>
   </div>
+
 {% endblock %}
