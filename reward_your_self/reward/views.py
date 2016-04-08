@@ -370,20 +370,16 @@ def get_user_invites(user):
     '''
     gets list of pending invites for a user
     '''
-    # query for groups containing passed user
-    # for which invite has not been accepted
-    # return group list
-    pass
+    invites = User_Group.objects.filter(user=user, invite_accepted=False)
+    return invites
 
 def remove_group(user, group):
     '''
     removes a user from a group
     '''
-    # identify associative table entry for user to group
-    # delete that entry
-    # verify deletion
-    # return updated user group list
-    pass
+    association = User_Group.objects.filter(user=user, group=group)
+    association.delete()
+    return get_group_list(user)
 
 def find_default_group(user):
     '''
@@ -395,7 +391,7 @@ def find_default_group(user):
 
 def get_group_list(user):
     '''
-    gets the list of groups for the current user
+    gets the list of active groups for the current user
     '''
-    #
-    pass
+    group_list = User_Group.objects.filter(user=user, invite_accepted=True)
+    return group_list
