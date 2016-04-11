@@ -1,8 +1,14 @@
 {% extends "reward/main_wrapper.html" %}
 {% load static %}
-{% block page_styles %}{% endblock %}
+{% block page_styles %}
+<link rel="stylesheet" href='{% static "reward/css/main.css" %}'>
+{% endblock %}
 {% block page_title %}Main{% endblock %}
 {% block main %}
+
+  <button type="button" name="add_point" id="add_point">
+    Good Job! Give yourself a point!
+  </button>
 
   {% if next_avail %}
     <div class="next_reward">
@@ -32,10 +38,6 @@
       </button>
     </div>
   {% endif %}
-
-  <button type="button" name="add_point" id="add_point">
-    Good Job! Give yourself a point!
-  </button>
 
 {% endblock %}
 {% block page_javascript %}
