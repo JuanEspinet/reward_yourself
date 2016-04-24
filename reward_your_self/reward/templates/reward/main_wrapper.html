@@ -9,14 +9,19 @@
   </head>
   <body>
     <header>
-      <h1>Reward Yourself, {{ request.user.username }}</h1>
+      <h1>Reward Yourself
+        {% if request.user.username %}
+        , {{ request.user.username }}
+        {% endif %}</h1>
       <h2>{% block page_title %}{% endblock %}</h2>
       <p>
+        {% if request.user.profile.active_group.group_name %}
         {{ request.user.profile.active_group.group_name }} has
         <span id="point_total">
           {{ request.user.profile.active_group.total_points }}
         </span>
         total points.
+        {% endif %}
       </p>
       <nav class="header_nav">
         <ul>
