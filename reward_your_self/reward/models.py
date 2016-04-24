@@ -96,6 +96,8 @@ def new_user_setup(sender, instance, created, **kwargs):
         new_profile = create_profile(sender, instance, created)
         new_access = Access_Level.objects.filter(access_level='default')[0]
         new_assoc = create_assoc(instance, new_group, created, new_access)
+        new_profile.active_group = new_group
+        new_profile.save()
 
 def new_group_defaults(sender, instance, created, **kwargs):
     '''
