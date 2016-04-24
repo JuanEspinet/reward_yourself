@@ -46,7 +46,11 @@ def main_page(request):
         highest_points = highest_avail.point_cost
     # get the next reward the user will be able to afford
     # will be False if the user has more points than their highest cost reward
-    next_avail = get_next_highest(group_rewards, highest_points)
+    unavail_rewards = Reward.objects.filter(
+        group_id=active_group,
+        point_cost__gte=active_group.total_points
+    )
+    next_avail = get_next_highest(unavail_rewards, active_group.total_points)
     context = {
         'user_groups' : user_groups,
         'highest_avail' : highest_avail,
