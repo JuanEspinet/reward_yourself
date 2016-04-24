@@ -74,7 +74,7 @@ def create_profile(sender, instance, created, **kwargs):
     new_profile.save()
     return new_profile
 
-def create_assoc(user, group, invite_status):
+def create_assoc(user, group, invite_status, access_level):
     '''
     adds membership association for a user with a group
     returns the newly created association
@@ -94,7 +94,8 @@ def new_user_setup(sender, instance, created, **kwargs):
     if created:
         new_group = create_default_group(sender, instance, created)
         new_profile = create_profile(sender, instance, created)
-        new_assoc = create_assoc(instance, new_group, created)
+        new_access = Access_Level.objects.filter(access_level='default')[0]
+        new_assoc = create_assoc(instance, new_group, created, new_access)
 
 # signal listeners
 

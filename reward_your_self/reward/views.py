@@ -106,7 +106,7 @@ def logout_request(request):
     sends a logout signal and redirects to login page
     '''
     logout(request);
-    return HttpResponseRedirect('login_page')
+    return HttpResponseRedirect('../login_page')
 
 def login_attempt(request):
     '''
@@ -385,7 +385,8 @@ def find_default_group(user):
     '''
     finds and returns the default (original) group for a user
     '''
-    # find list of groups for which access level is "default"
+    # find user group for which access level is "default"
+    default = User_Group.objects.filter()
     # return that group
     pass
 
