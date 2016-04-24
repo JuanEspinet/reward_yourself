@@ -97,6 +97,23 @@ def new_user_setup(sender, instance, created, **kwargs):
         new_access = Access_Level.objects.filter(access_level='default')[0]
         new_assoc = create_assoc(instance, new_group, created, new_access)
 
+def new_group_defaults(sender, instance, created, **kwargs):
+    '''
+    sets up defaults for any newly created group
+    such as default list of rewards
+    '''
+    if created:
+        default_reward = Reward(
+            group_id = instance,
+            reward_name = 'Default Reward!',
+            description = 'This default reward comes with every group! Congratulations!',
+            point_cost = 20,
+            num_redeemed = 0,
+        )
+        default_reward.save()
+        return default_reward
+
 # signal listeners
 
 post_save.connect(new_user_setup, sender=User, dispatch_uid='banana')
+post_save.connect(new_group_defaults, sender=Reward_Group, dispatch_uid='habitat')
