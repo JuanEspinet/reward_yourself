@@ -23,7 +23,7 @@
         <span class="point_display">
           {{ active_group.total_points }} / {{ next_avail.point_cost }}
         </span>
-        <div class="inner_bar">
+        <div class="inner_bar" id="inner_bar">
         </div>
       </div>
     </div>
@@ -41,6 +41,10 @@
 
 {% endblock %}
 {% block page_javascript %}
+  <script type="text/javascript">
+    var totalPoints = {{ active_group.total_points }},
+        pointCost = {{ next_avail.point_cost }};
+  </script>
   <script type="text/javascript" src='{% static "reward/js/main.js" %}'>
   </script>
 {% endblock %}

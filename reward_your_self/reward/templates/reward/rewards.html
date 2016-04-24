@@ -29,6 +29,7 @@
   {% endfor %}
   </div>
   <div class="hidden_form" id="add_reward">
+    <h3>Create a New Reward</h3>
     <form class="" action="/new_reward/" method="post" id="new_reward_form">
       {% csrf_token %}
       {{ rew_form }}

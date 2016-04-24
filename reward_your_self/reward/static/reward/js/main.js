@@ -1,6 +1,7 @@
 $(document).ready(function(){
   $('#add_point').click(addPoint);
   $('#get_reward').click(goToRewards);
+  setProgressBar();
 });
 
 function goToRewards(){
@@ -14,4 +15,13 @@ function addPoint(){
   }).success(function(){
     window.location = '/main/';
   });
+}
+
+function percentProgress(){
+  return (totalPoints / pointCost) * 100;
+}
+
+function setProgressBar(){
+  var bar = document.getElementById('inner_bar');
+  bar.style.width = String(percentProgress()) + '%';
 }
