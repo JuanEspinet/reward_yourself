@@ -94,7 +94,7 @@ def new_user_setup(sender, instance, created, **kwargs):
     if created:
         new_group = create_default_group(sender, instance, created)
         new_profile = create_profile(sender, instance, created)
-        new_access = Access_Level.objects.filter(access_level='default')[0]
+        new_access = default_access_level()
         new_assoc = create_assoc(instance, new_group, created, new_access)
         new_profile.active_group = new_group
         new_profile.save()
@@ -114,6 +114,22 @@ def new_group_defaults(sender, instance, created, **kwargs):
         )
         default_reward.save()
         return default_reward
+
+def default_access_level():
+    '''
+    ensures there is a default access level created
+    creates that level if necessary
+    returns that access level
+    '''
+    default_access_list = Access_Level.objects.filter(access_level='default')
+    if not default_access_list:
+        default_access = Access_Level(
+            access_level = 'default'
+        )
+        default_access.save()
+    else:
+        default_access = default_access_list[0]
+    return default_access
 
 # signal listeners
 

@@ -390,8 +390,6 @@ def find_default_group(user):
     finds and returns the default (original) group for a user
     '''
     # find user group for which access level is "default"
-    default = User_Group.objects.filter()
-    # return that group
     pass
 
 def get_group_list(user):
