@@ -84,6 +84,7 @@ def create_assoc(user, group, invite_status, access_level):
         user = user,
         invite_accepted = invite_status,
     )
+    new_assoc.access_level.add(access_level)
     new_assoc.save()
     return new_assoc
 
@@ -131,6 +132,21 @@ def default_access_level():
         default_access = default_access_list[0]
     return default_access
 
+def user_access_level():
+    '''
+    ensures there is a user access level created
+    creates that level if necessary
+    returns that access level
+    '''
+    user_access_list = Access_Level.objects.filter(access_level='User')
+    if not user_access_list:
+        user_access = Access_Level(
+            access_level = 'User'
+        )
+        user_access.save()
+    else:
+        user_access = user_access_list[0]
+    return user_access
 # signal listeners
 
 post_save.connect(new_user_setup, sender=User, dispatch_uid='banana')

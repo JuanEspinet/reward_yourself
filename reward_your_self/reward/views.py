@@ -5,7 +5,8 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
-from .models import Reward_Group, Reward, Access_Level, Profile, User_Group
+from .models import Reward_Group, Reward, Access_Level, Profile, User_Group, \
+    create_assoc, user_access_level
 from time import strftime
 from .forms import Reward_Form, Group_Form
 
@@ -89,7 +90,12 @@ def group_page(request):
     group page loader
     '''
     new_group = Group_Form(request=request)
+    invites = get_user_invites(request.user)
+    current_group = request.user.profile.active_group
     context = {
+        'current_group' : current_group,
+        'group_users' : current_group.users.all(),
+        'invites' : invites,
         'group_form' : new_group,
         'groups' : Reward_Group.objects.filter(users__id = request.user.id),
     }
@@ -398,3 +404,39 @@ def get_group_list(user):
     '''
     group_list = User_Group.objects.filter(user=user, invite_accepted=True)
     return group_list
+
+def invite_attempt(request):
+    '''
+    processes an attempt to invite a user and informs the browser of success
+    '''
+    if request.method == 'POST':
+        data = request.POST
+        user = reuqest.user
+        invitee = data['username']
+        invite_request = invite_user(invitee, user.profile.active_group)
+        if invite_request:
+            response_data = {
+                'invite_status' : 'success',
+                'error_message' : 'none'
+            }
+        else:
+            response_data = {
+                'invite_stutus' : 'failed',
+                'error_message' : 'user does not exist'
+            }
+    else:
+        response_data = {
+            'invite_stutus' : 'failed',
+            'error_message' : 'invalid request type'
+        }
+    return JsonResponse(response_data)
+
+def invite_user(username, group):
+    '''
+    invites a new user to a group
+    '''
+    if check_uname_exist(username):
+        user = User.objects.get(username__iexact=username)
+        access_level = user_access_level()
+        return create_assoc(user, group, False, access_level)
+    return False

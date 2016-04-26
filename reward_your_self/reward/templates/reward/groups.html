@@ -8,15 +8,58 @@
 {% endblock %}
 
 {% block main %}
-  <div class="invite_list" id="invite_list">
+  <a href="/profile/">Change Current Group</a>
 
+  <div class="invite_list" id="invite_list">
+    {% if invites %}
+    <h3>Group Invites</h3>
+      {% for invite in invites %}
+        <div class="invite" id="group_{{ invite.pk }}">
+          <p>
+            You have a pending invite from {{ invite.group }}.
+          </p>
+          <button type="button" name="accept_invite">Accept</button>
+          <button type="button" name="reject_invite">Reject</button>
+        </div>
+      {% endfor %}
+    {% endif %}
   </div>
 
   <div class="control_panel" id="current_dashboard">
+    <h3>Current Group Dashboard</h3>
 
+    <div class="dashboard_field" id="dashboard_name">
+      Group Name: {{ current_group.group_name }}
+    </div>
+
+    <div class="dashboard_field" id="dashboard_points">
+      Group Name: {{ current_group.total_points }}
+    </div>
+
+    <div class="dashboard_field" id="dashboard_members">
+      Group Members:
+        <ul class="member_list">
+          {% for member in group_users %}
+            <li id="member_{{member.pk}}">
+              {{ member.username }}
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+
+    <div class="dashboard_field" id="dashboard_invite">
+      <h4>Invite a New User to {{ current_group.group_name }}:</h4>
+      <form class="invite_user" action="" method="post">
+        {% csrf_token %}
+        <label for="usersname">Username</label>
+        <input type="text" name="username" value="">
+        <input type="button" name="search_invite" value="Search">
+      </form>
+    </div>
   </div>
 
   <div id="new_group_form" class="hidden_form">
+    <h3>Create New Group</h3>
     <form class="new_group" action="/new_group/" method="post">
       {% csrf_token %}
       {{ group_form }}
