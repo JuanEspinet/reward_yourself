@@ -84,8 +84,8 @@ def create_assoc(user, group, invite_status, access_level):
         user = user,
         invite_accepted = invite_status,
     )
-    new_assoc.access_level.add(access_level)
     new_assoc.save()
+    new_assoc.access.add(access_level)
     return new_assoc
 
 def new_user_setup(sender, instance, created, **kwargs):

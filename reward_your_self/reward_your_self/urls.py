@@ -33,4 +33,5 @@ urlpatterns = [
     url(r'^add_point/$', rwviews.add_point, name='add_point'),
     url(r'^groups/$', rwviews.group_page, name='groups_page'),
     url(r'^new_group/$', rwviews.create_new_group, name='new_group'),
+    url(r'^invite_attempt/$', rwviews.invite_attempt, name='invite_attempt'),
 ]

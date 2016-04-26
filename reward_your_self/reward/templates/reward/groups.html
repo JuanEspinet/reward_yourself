@@ -18,8 +18,8 @@
           <p>
             You have a pending invite from {{ invite.group }}.
           </p>
-          <button type="button" name="accept_invite">Accept</button>
-          <button type="button" name="reject_invite">Reject</button>
+          <button type="button" name="accept_invite" id="accept_invite">Accept</button>
+          <button type="button" name="reject_invite" id="reject_invite">Reject</button>
         </div>
       {% endfor %}
     {% endif %}
@@ -33,7 +33,7 @@
     </div>
 
     <div class="dashboard_field" id="dashboard_points">
-      Group Name: {{ current_group.total_points }}
+      Group Points: {{ current_group.total_points }}
     </div>
 
     <div class="dashboard_field" id="dashboard_members">
@@ -52,8 +52,8 @@
       <form class="invite_user" action="" method="post">
         {% csrf_token %}
         <label for="usersname">Username</label>
-        <input type="text" name="username" value="">
-        <input type="button" name="search_invite" value="Search">
+        <input type="text" name="username" value="" id="username">
+        <input type="button" name="search_invite" value="Search" id="search">
       </form>
     </div>
   </div>
@@ -67,4 +67,8 @@
     </form>
   </div>
 
+{% endblock %}
+{% block page_javascript %}
+  <script type="text/javascript" src='{% static "reward/js/group.js" %}'>
+  </script>
 {% endblock %}

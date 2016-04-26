@@ -411,7 +411,7 @@ def invite_attempt(request):
     '''
     if request.method == 'POST':
         data = request.POST
-        user = reuqest.user
+        user = request.user
         invitee = data['username']
         invite_request = invite_user(invitee, user.profile.active_group)
         if invite_request:
