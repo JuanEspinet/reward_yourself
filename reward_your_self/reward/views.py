@@ -12,6 +12,10 @@ from .forms import Reward_Form, Group_Form
 
 # extra context processor
 def main_wrapper_extra_vars(request):
+    '''
+    attaches extra variables to all contexts for use in page wrapper
+    '''
+    # TODO: This function is currently bugged and not all data is accessible
     main_page = {'url' : '/main/', 'name' : 'Main'}
     return {
         'nav_url_list' : {
@@ -30,6 +34,14 @@ def main_wrapper_extra_vars(request):
 # Create your views here:
 
 # page loaders
+def explanation(request):
+    context = {}
+    return render(request, 'reward/explanation.html', context)
+
+def register_page(request):
+    context = {}
+    return render(request, 'reward/register.html', context)
+
 @login_required
 def main_page(request):
     '''

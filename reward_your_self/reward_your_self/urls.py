@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^$', rwviews.main_page, name = 'main_page'),
     url(r'^login_page/$', rwviews.login_page, name='login_page'),
     url(r'^login/$', rwviews.login_attempt, name='login_attempt'),
+    url(r'^registration/$', rwviews.register_page, name='register'),
     url(r'^register/$', rwviews.register_attempt, name='reg_attempt'),
     url(r'^logout_request/$', rwviews.logout_request, name='logout_req'),
     url(r'^profile/$', rwviews.profile_page, name='profile_page'),
@@ -36,4 +37,5 @@ urlpatterns = [
     url(r'^invite_attempt/$', rwviews.invite_attempt, name='invite_attempt'),
     url(r'^accept_invite/$', rwviews.accept_invite, name='accept_invite'),
     url(r'^reject_invite/$', rwviews.reject_invite, name='reject_invite'),
+    url(r'^explanation/$', rwviews.explanation, name='explanation'),
 ]
