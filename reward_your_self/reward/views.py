@@ -440,3 +440,28 @@ def invite_user(username, group):
         access_level = user_access_level()
         return create_assoc(user, group, False, access_level)
     return False
+
+def accept_invite(request):
+    '''
+    accepts an invite to a group
+    '''
+    if request.method == 'POST':
+        data = request.POST
+        user = request.user
+        invite = User_Group.objects.get(pk=int(data['group_pk']))
+        invite.invite_accepted = True
+        invite.save()
+        return JsonResponse({'status' : 'accepted'})
+    return JsonResponse({'status' : 'invalid request'})
+
+def reject_invite(request):
+    '''
+    rejects an invite to a group
+    '''
+    if request.method == 'POST':
+        data = request.POST
+        user = request.user
+        invite = User_Group.objects.get(pk=int(data['group_pk']))
+        invite.delete()
+        return JsonResponse({'status' : 'deleted'})
+    return JsonResponse({'status' : 'invalid request'})

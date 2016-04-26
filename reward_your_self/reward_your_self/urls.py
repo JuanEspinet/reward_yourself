@@ -34,4 +34,6 @@ urlpatterns = [
     url(r'^groups/$', rwviews.group_page, name='groups_page'),
     url(r'^new_group/$', rwviews.create_new_group, name='new_group'),
     url(r'^invite_attempt/$', rwviews.invite_attempt, name='invite_attempt'),
+    url(r'^accept_invite/$', rwviews.accept_invite, name='accept_invite'),
+    url(r'^reject_invite/$', rwviews.reject_invite, name='reject_invite'),
 ]

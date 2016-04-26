@@ -14,12 +14,12 @@
     {% if invites %}
     <h3>Group Invites</h3>
       {% for invite in invites %}
-        <div class="invite" id="group_{{ invite.pk }}">
+        <div class="invite" id="{{ invite.pk }}">
           <p>
             You have a pending invite from {{ invite.group }}.
           </p>
-          <button type="button" name="accept_invite" id="accept_invite">Accept</button>
-          <button type="button" name="reject_invite" id="reject_invite">Reject</button>
+          <button type="button" name="accept_invite" class="accept_reject">Accept</button>
+          <button type="button" name="reject_invite" class="accept_reject">Reject</button>
         </div>
       {% endfor %}
     {% endif %}
