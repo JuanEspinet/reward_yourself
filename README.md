@@ -1,5 +1,5 @@
 # Reward Yourself
-Capstone Project for PDX Code Guild Bootcamp 2016
+Capstone Project for PDX Code Guild Bootcamp 2016. Uses Python, Django, PostgreSQL, HTML/CSS, and Javascript.
 
   Reward Yourself is a behavior-change gamification tool that is designed to make it easier for users to reward themselves for small (or big) efforts they make toward things they want to change/accomplish in life. This web app focuses on mobile-friendliness, so user can pull out their smartphone anywhere and anytime and give themselves an electronic high-five for making an effort.
 
